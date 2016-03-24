@@ -8,11 +8,17 @@ module.exports = (apiRouter) => {
         req.body = JSON.parse(data);
         let newUser = new User(req.body);
         newUser.save((err, user) => {
-          res.json({
-            status: 200,
-            data: user
-          })
-          res.end();
+          if(err) {
+            res.status(400).json({message: 'invalid name'})
+            res.end();
+          }
+          if(user !== undefined) {
+            res.json({
+              status: 200,
+              data: user
+            })
+            res.end();
+          }
         })
       })
     })

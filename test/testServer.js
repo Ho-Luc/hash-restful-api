@@ -22,6 +22,18 @@ describe('tests creating new user', () => {
         done();
       })
   })
+
+  it('expect \'invalid user\' json, with status 400', (done) => {
+    request('localhost:3000')
+      .post('/api/createUser')
+      .send('{"name":"dude", "password":"123456"}')
+      .end((err, res) => {
+        expect(res).to.be.json;
+        expect(err.status).to.eql(400);
+        expect(res.body.message).to.eql('invalid name');
+        done();
+      })
+  })
 })
 
 describe('tests creating a hashed password and a token', () => {
